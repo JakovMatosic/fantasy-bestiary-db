@@ -180,10 +180,10 @@ VALUES ('Harpy', 'Rare', 'Day', '2-12', 'CE', 7, '6, Fl 15 (C)', '7', 13, '1-3(x
 
 -- Assuming the treasure_type_id for 'R' is 18.
 INSERT INTO monster_treasure (monster_id, treasure_type_id)
-VALUES (7, 18); -- Treasure type 'R'
+VALUES (8, 18); -- Treasure type 'R'
 
 INSERT INTO monster_treasure (monster_id, treasure_type_id)
-VALUES (7, 3); -- Treasure type 'C'
+VALUES (8, 3); -- Treasure type 'C'
 
 -- Insert data into the 'monster' table for the Sphinx
 INSERT INTO monster (name, frequency, activity_cycle, number_appearing, alignment, armor_class, movement, hit_dice, thaco, attack, size, morale, experience)
@@ -192,7 +192,16 @@ VALUES ('Sphinx', 'Rare', 'Day', '1-4', 'N', -1, '15, Fl 24 (D)', '8', 13, '2-8x
 -- Insert data into the 'monster_treasure' table for the Sphinx
 -- Assuming the treasure_type_id for 'R' is 18 and 'X' is 24, you can adjust it according to your treasure_type table.
 INSERT INTO monster_treasure (monster_id, treasure_type_id)
-VALUES (8, 18); -- Treasure type 'R'
+VALUES (9, 18); -- Treasure type 'R'
 
 INSERT INTO monster_treasure (monster_id, treasure_type_id)
-VALUES (8, 24); -- Treasure type 'X'
+VALUES (9, 24); -- Treasure type 'X'
+
+-- Insert data into the 'monster' table for the Minotaur
+INSERT INTO monster (name, frequency, activity_cycle, number_appearing, alignment, armor_class, movement, hit_dice, thaco, attack, size, morale, experience)
+VALUES ('Minotaur', 'Rare', 'Night', '1-8', 'CE', 6, '12', '6+3', 13, '2-8x2 or 1-4/weapon', 'L (7.5)', '13', 1400);
+
+-- Insert data into the 'monster_treasure' table for the Minotaur
+-- Assuming the treasure_type_id for 'C' is 3, you can adjust it according to your treasure_type table.
+INSERT INTO monster_treasure (monster_id, treasure_type_id)
+VALUES (10, 3); -- Treasure type 'C'
