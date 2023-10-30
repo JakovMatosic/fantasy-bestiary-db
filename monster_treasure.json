@@ -1,0 +1,19 @@
+                           row_to_json                           
+-----------------------------------------------------------------
+ {"monster_treasure_id":1,"monster_id":1,"treasure_type_id":4}
+ {"monster_treasure_id":2,"monster_id":2,"treasure_type_id":3}
+ {"monster_treasure_id":3,"monster_id":2,"treasure_type_id":15}
+ {"monster_treasure_id":4,"monster_id":2,"treasure_type_id":17}
+ {"monster_treasure_id":5,"monster_id":2,"treasure_type_id":19}
+ {"monster_treasure_id":6,"monster_id":3,"treasure_type_id":6}
+ {"monster_treasure_id":8,"monster_id":4,"treasure_type_id":4}
+ {"monster_treasure_id":7,"monster_id":4,"treasure_type_id":17}
+ {"monster_treasure_id":9,"monster_id":5,"treasure_type_id":8}
+ {"monster_treasure_id":10,"monster_id":5,"treasure_type_id":3}
+ {"monster_treasure_id":11,"monster_id":8,"treasure_type_id":18}
+ {"monster_treasure_id":12,"monster_id":8,"treasure_type_id":3}
+ {"monster_treasure_id":13,"monster_id":9,"treasure_type_id":18}
+ {"monster_treasure_id":14,"monster_id":9,"treasure_type_id":24}
+ {"monster_treasure_id":15,"monster_id":10,"treasure_type_id":3}
+(15 rows)
+
