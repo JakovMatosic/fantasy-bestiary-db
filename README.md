@@ -1,7 +1,7 @@
 # fantasy-bestiary-db
 
 ## Description
-This repository contains monster and treasure data for the second edition of the worlds most popular fantasy roleplaying game. It is 
+This repository contains monster and treasure data for the second edition of the worlds most popular fantasy roleplaying game.
 
 ## Metadata
 - **Data License**: OGL (Open Gaming License)
