@@ -1,6 +1,6 @@
 -- Insert records for Treasure Type A
 INSERT INTO treasure_type (treasure_type_name, copper_range, silver_range, gold_range, electrum_range, gems_range, art_objects_range, item, percentage_copper, percentage_silver, percentage_gold, percentage_electrum, percentage_gems, percentage_art_objects, percentage_item)
-VALUES ('A', '200–2,000', '1,000–6,000', '300–1,800', '10–40', '2–12', 'Any 3', 25, 30, 40, 35, 60, 50, 30);
+VALUES ('A', '1,000–3,000', '200–2,000', '1,000–6,000', '300–1,800', '10–40', '2–12', 'Any 3', 25, 30, 40, 35, 60, 50, 30);
 
 -- Insert records for Treasure Type B
 INSERT INTO treasure_type (treasure_type_name, copper_range, silver_range, gold_range, electrum_range, gems_range, art_objects_range, item, percentage_copper, percentage_silver, percentage_gold, percentage_electrum, percentage_gems, percentage_art_objects, percentage_item)
