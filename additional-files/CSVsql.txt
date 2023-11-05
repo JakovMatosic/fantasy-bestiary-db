@@ -1,0 +1,35 @@
+COPY (
+    SELECT
+        m.monster_id,
+        m.name,
+        m.frequency,
+        m.activity_cycle,
+        m.number_appearing,
+        m.alignment,
+        m.armor_class,
+        m.movement,
+        m.hit_dice,
+        m.thaco,
+        m.attack,
+        m.size,
+        m.morale,
+        m.experience,
+        COALESCE(t.treasure_type_name, '') AS treasure_type_name,
+        COALESCE(t.copper_range, '') AS copper_range,
+        COALESCE(t.silver_range, '') AS silver_range,
+        COALESCE(t.gold_range, '') AS gold_range,
+        COALESCE(t.electrum_range, '') AS electrum_range,
+        COALESCE(t.gems_range, '') AS gems_range,
+        COALESCE(t.art_objects_range, '') AS art_objects_range,
+        COALESCE(t.item, '') AS item,
+        COALESCE(t.percentage_copper, 0) AS percentage_copper,
+        COALESCE(t.percentage_silver, 0) AS percentage_silver,
+        COALESCE(t.percentage_gold, 0) AS percentage_gold,
+        COALESCE(t.percentage_electrum, 0) AS percentage_electrum,
+        COALESCE(t.percentage_gems, 0) AS percentage_gems,
+        COALESCE(t.percentage_art_objects, 0) AS percentage_art_objects,
+        COALESCE(t.percentage_item, 0) AS percentage_item
+    FROM monster m
+    LEFT JOIN monster_treasure mt ON m.monster_id = mt.monster_id
+    LEFT JOIN treasure_type t ON mt.treasure_type_id = t.treasure_type_id
+) TO 'D:\tmp\fantasy_bestiary.csv' WITH CSV HEADER;
