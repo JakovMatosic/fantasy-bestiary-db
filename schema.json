@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "monsterId": { "type": "integer" },
+    "name": { "type": "string" },
+    "frequency": { "type": "string" },
+    "activityCycle": { "type": "string" },
+    "numberAppearing": { "type": "string" },
+    "alignment": { "type": "string" },
+    "armorClass": { "type": "integer" },
+    "movement": { "type": "string" },
+    "hitDice": { "type": "string" },
+    "thaco": { "type": "integer" },
+    "attack": { "type": "string" },
+    "size": { "type": "string" },
+    "morale": { "type": "string" },
+    "experience": { "type": "integer" },
+    "treasureTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "treasureTypeId": { "type": "integer" },
+          "treasureTypeName": { "type": "string" },
+          "copperRange": { "type": "string" },
+          "silverRange": { "type": "string" },
+          "goldRange": { "type": "string" },
+          "electrumRange": { "type": "string" },
+          "gemsRange": { "type": "string" },
+          "artObjectsRange": { "type": "string" },
+          "item": { "type": "string" },
+          "percentageCopper": { "type": "integer" },
+          "percentageSilver": { "type": "integer" },
+          "percentageGold": { "type": "integer" },
+          "percentageElectrum": { "type": "integer" },
+          "percentageGems": { "type": "integer" },
+          "percentageArtObjects": { "type": "integer" },
+          "percentageItem": { "type": "integer" }
+        },
+        "required": ["treasureTypeId", "treasureTypeName"]
+      }
+    }
+  },
+  "required": ["name", "frequency", "activityCycle", "numberAppearing", "alignment", "armorClass", "movement", "hitDice", "thaco", "attack", "size", "morale", "experience"]
+}
