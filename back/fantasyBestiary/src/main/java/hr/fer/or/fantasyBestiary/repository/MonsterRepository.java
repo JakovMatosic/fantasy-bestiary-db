@@ -14,4 +14,6 @@ public interface MonsterRepository extends JpaRepository<Monster, Long> {
 	@Query("SELECT mt.treasureType FROM MonsterTreasure mt WHERE mt.monster.monsterId = :monsterId")
 	List<TreasureType> findTreasuresByMonsterId(@Param("monsterId") Long monsterId);
 
+	//List<FullEntry> getAllEntries();
+
 }

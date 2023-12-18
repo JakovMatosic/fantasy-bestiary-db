@@ -10,7 +10,6 @@ import hr.fer.or.fantasyBestiary.service.MonsterService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/monsters")

@@ -1,17 +1,59 @@
 package hr.fer.or.fantasyBestiary.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-@Entity
-@Table(name = "treasure_type")
-public class TreasureType {
-
+public class FullEntry {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "treasure_type_id")
-	private Long treasureTypeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "monster_treasure_id")
+    private Long monsterTreasureId;
 
-	@Column(name = "treasure_type_name", nullable = false)
+    @Column(name = "name")
+	private String name;
+
+	@Column(name = "frequency")
+	private String frequency;
+
+	@Column(name = "activity_cycle")
+	private String activityCycle;
+
+	@Column(name = "number_appearing")
+	private String numberAppearing;
+
+	@Column(name = "alignment")
+	private String alignment;
+
+	@Column(name = "armor_class")
+	private Integer armorClass;
+
+	@Column(name = "movement")
+	private String movement;
+
+	@Column(name = "hit_dice")
+	private String hitDice;
+
+	@Column(name = "thaco")
+	private Integer thaco;
+
+	@Column(name = "attack")
+	private String attack;
+
+	@Column(name = "size")
+	private String size;
+
+	@Column(name = "morale")
+	private String morale;
+
+	@Column(name = "experience")
+	private Integer experience;
+	
+	@Column(name = "treasure_type_name")
 	private String treasureTypeName;
 
 	@Column(name = "copper_range")
@@ -56,13 +98,26 @@ public class TreasureType {
 	@Column(name = "percentage_item")
 	private Integer percentageItem;
 
-	public TreasureType() {
-	}
-
-	public TreasureType(String treasureTypeName, String copperRange, String silverRange, String goldRange,
-			String electrumRange, String gemsRange, String artObjectsRange, String item, Integer percentageCopper,
-			Integer percentageSilver, Integer percentageGold, Integer percentageElectrum, Integer percentageGems,
-			Integer percentageArtObjects, Integer percentageItem) {
+	public FullEntry(String name, String frequency,
+			String activityCycle, String numberAppearing, String alignment, Integer armorClass, String movement,
+			String hitDice, Integer thaco, String attack, String size, String morale, Integer experience,
+			String treasureTypeName, String copperRange, String silverRange, String goldRange, String electrumRange,
+			String gemsRange, String artObjectsRange, String item, Integer percentageCopper, Integer percentageSilver,
+			Integer percentageGold, Integer percentageElectrum, Integer percentageGems, Integer percentageArtObjects,
+			Integer percentageItem) {
+		this.name = name;
+		this.frequency = frequency;
+		this.activityCycle = activityCycle;
+		this.numberAppearing = numberAppearing;
+		this.alignment = alignment;
+		this.armorClass = armorClass;
+		this.movement = movement;
+		this.hitDice = hitDice;
+		this.thaco = thaco;
+		this.attack = attack;
+		this.size = size;
+		this.morale = morale;
+		this.experience = experience;
 		this.treasureTypeName = treasureTypeName;
 		this.copperRange = copperRange;
 		this.silverRange = silverRange;
@@ -80,12 +135,108 @@ public class TreasureType {
 		this.percentageItem = percentageItem;
 	}
 
-	public Long getTreasureTypeId() {
-		return treasureTypeId;
+	public String getName() {
+		return name;
 	}
 
-	public void setTreasureTypeId(Long treasureTypeId) {
-		this.treasureTypeId = treasureTypeId;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+	public String getActivityCycle() {
+		return activityCycle;
+	}
+
+	public void setActivityCycle(String activityCycle) {
+		this.activityCycle = activityCycle;
+	}
+
+	public String getNumberAppearing() {
+		return numberAppearing;
+	}
+
+	public void setNumberAppearing(String numberAppearing) {
+		this.numberAppearing = numberAppearing;
+	}
+
+	public String getAlignment() {
+		return alignment;
+	}
+
+	public void setAlignment(String alignment) {
+		this.alignment = alignment;
+	}
+
+	public Integer getArmorClass() {
+		return armorClass;
+	}
+
+	public void setArmorClass(Integer armorClass) {
+		this.armorClass = armorClass;
+	}
+
+	public String getMovement() {
+		return movement;
+	}
+
+	public void setMovement(String movement) {
+		this.movement = movement;
+	}
+
+	public String getHitDice() {
+		return hitDice;
+	}
+
+	public void setHitDice(String hitDice) {
+		this.hitDice = hitDice;
+	}
+
+	public Integer getThaco() {
+		return thaco;
+	}
+
+	public void setThaco(Integer thaco) {
+		this.thaco = thaco;
+	}
+
+	public String getAttack() {
+		return attack;
+	}
+
+	public void setAttack(String attack) {
+		this.attack = attack;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getMorale() {
+		return morale;
+	}
+
+	public void setMorale(String morale) {
+		this.morale = morale;
+	}
+
+	public Integer getExperience() {
+		return experience;
+	}
+
+	public void setExperience(Integer experience) {
+		this.experience = experience;
 	}
 
 	public String getTreasureTypeName() {
@@ -207,5 +358,4 @@ public class TreasureType {
 	public void setPercentageItem(Integer percentageItem) {
 		this.percentageItem = percentageItem;
 	}
-
 }

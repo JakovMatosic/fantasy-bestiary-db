@@ -1,7 +1,5 @@
 package hr.fer.or.fantasyBestiary.entities;
 
-import java.util.Set;
-
 import jakarta.persistence.*;
 
 @Entity

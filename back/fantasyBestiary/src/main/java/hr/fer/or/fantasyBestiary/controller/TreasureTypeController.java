@@ -5,11 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import hr.fer.or.fantasyBestiary.entities.TreasureType;
-import hr.fer.or.fantasyBestiary.entities.Monster;
 import hr.fer.or.fantasyBestiary.service.TreasureTypeService;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/treasure-types")
@@ -30,7 +29,7 @@ public class TreasureTypeController {
     }
 
     @GetMapping
-    public Iterable<TreasureType> getAllTreasureTypes() {
+    public List<TreasureType> getAllTreasureTypes() {
         return treasureTypeService.getAllTreasureTypes();
     }
 
