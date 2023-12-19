@@ -18,6 +18,7 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
+import { ApiResponse } from '../../models/api.response';
 
 @Component({
   selector: 'app-datatable',
@@ -59,17 +60,28 @@ export class DatatableComponent {
   constructor(private dataService: DataService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.dataService.getAllMonsters().subscribe((monsters: Monster[]) => {
+    this.dataService.getAllMonsters().subscribe((monsterResponse: any) => {
+      let monsters = monsterResponse.data;
       const monsterObservables = monsters.map((monster: Monster) => {
-        return this.dataService
-          .getTreasuresForMonster(monster.monsterId)
-          .pipe(map((treasures: TreasureType[]) => ({ monster, treasures })));
+        return this.dataService.getTreasuresForMonster(monster.monsterId).pipe(
+          map((monsterTreasureResponse: any) => {
+            let treasures = monsterTreasureResponse.data;
+            return {
+              monster: monster, // Assuming 'monster' is a variable in the surrounding scope
+              treasures: treasures,
+            };
+          })
+        );
       });
 
       forkJoin(monsterObservables).subscribe(
-        (monsterTreasures: MonsterTreasure[]) => {
-          this.dataSource.data = monsterTreasures;
-          this.monsterTreasureArr = monsterTreasures;
+        (monsterTreasures: MonsterTreasure[] | unknown) => {
+          if (Array.isArray(monsterTreasures)) {
+            this.dataSource.data = monsterTreasures;
+            this.monsterTreasureArr = monsterTreasures;
+          } else {
+            console.error('Unexpected response format:', monsterTreasures);
+          }
         }
       );
     });

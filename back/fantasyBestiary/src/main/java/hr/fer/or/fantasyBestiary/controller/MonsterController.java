@@ -1,12 +1,14 @@
 package hr.fer.or.fantasyBestiary.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import hr.fer.or.fantasyBestiary.entities.Monster;
 import hr.fer.or.fantasyBestiary.entities.TreasureType;
+import hr.fer.or.fantasyBestiary.response.ApiResponse;
 import hr.fer.or.fantasyBestiary.service.MonsterService;
 
 import java.net.URI;
@@ -26,52 +28,71 @@ public class MonsterController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Monster> getMonsterById(@PathVariable Long id) {
-		Optional<Monster> monsterOptional = monsterService.getMonsterById(id);
-		return monsterOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-	}
+    public ResponseEntity<ApiResponse<Monster>> getMonsterById(@PathVariable Long id) {
+        Optional<Monster> monsterOptional = monsterService.getMonsterById(id);
+        if (monsterOptional.isPresent()) {
+            Monster monster = monsterOptional.get();
+            ApiResponse<Monster> response = new ApiResponse<>("success", monster);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("error", null));
+        }
+    }
 
 	@GetMapping
-	public List<Monster> getAllMonsters() {
-		return monsterService.getAllMonsters();
-	}
+    public ResponseEntity<ApiResponse<List<Monster>>> getAllMonsters() {
+        List<Monster> monsters = monsterService.getAllMonsters();
+        ApiResponse<List<Monster>> response = new ApiResponse<>("success", monsters);
+        return ResponseEntity.ok(response);
+    }
 
 	@GetMapping("/{monsterId}/treasures")
-	public ResponseEntity<List<TreasureType>> getTreasuresForMonster(@PathVariable Long monsterId) {
-		List<TreasureType> treasures = monsterService.findTreasuresByMonsterId(monsterId);
-		return treasures != null && !treasures.isEmpty() ? ResponseEntity.ok(treasures)
-				: ResponseEntity.notFound().build();
+	public ResponseEntity<Object> getTreasuresForMonster(@PathVariable Long monsterId) {
+	    List<TreasureType> treasures = monsterService.findTreasuresByMonsterId(monsterId);
+	    if (treasures != null && !treasures.isEmpty()) {
+	        ApiResponse<List<TreasureType>> response = new ApiResponse<>("success", treasures);
+	        return ResponseEntity.ok(response);
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body(new ApiResponse<>("error", null));
+	    }
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<Monster> createMonster(@RequestBody Monster monster) {
-	    Monster savedMonster = monsterService.saveMonster(monster);
-	    URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-	            .path("/{id}")
-	            .buildAndExpand(savedMonster.getMonsterId())
-	            .toUri();
-	    return ResponseEntity.created(location).body(savedMonster);
-	}
+    public ResponseEntity<ApiResponse<Monster>> createMonster(@RequestBody Monster monster) {
+        Monster savedMonster = monsterService.saveMonster(monster);
+        ApiResponse<Monster> response = new ApiResponse<>("success", savedMonster);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedMonster.getMonsterId())
+                .toUri();
+        return ResponseEntity.created(location).body(response);
+    }
 	
-	@PutMapping("/edit/{id}") 
-    public ResponseEntity<Monster> updateMonster(@PathVariable Long id, @RequestBody Monster updatedMonster) {
+	@PutMapping("/edit/{id}")
+    public ResponseEntity<ApiResponse<Monster>> updateMonster(@PathVariable Long id, @RequestBody Monster updatedMonster) {
         Optional<Monster> existingMonsterOptional = monsterService.getMonsterById(id);
         if (existingMonsterOptional.isPresent()) {
-        	updatedMonster.setMonsterId(id);
+            updatedMonster.setMonsterId(id);
             Monster savedMonster = monsterService.saveMonster(updatedMonster);
-            return ResponseEntity.ok(savedMonster);
+            ApiResponse<Monster> response = new ApiResponse<>("success", savedMonster);
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("error", null));
         }
     }
 	
 	@DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteMonster(@PathVariable Long id) {
-        if (monsterService.getMonsterById(id).isPresent()) {
-            monsterService.deleteMonster(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+	public ResponseEntity<Object> deleteMonster(@PathVariable Long id) {
+	    if (monsterService.getMonsterById(id).isPresent()) {
+	        monsterService.deleteMonster(id);
+	        ApiResponse<Void> response = new ApiResponse<>("success", null);
+	        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+	    } else {
+	        ApiResponse<Void> response = new ApiResponse<>("error", null);
+	        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	    }
+	}
 }

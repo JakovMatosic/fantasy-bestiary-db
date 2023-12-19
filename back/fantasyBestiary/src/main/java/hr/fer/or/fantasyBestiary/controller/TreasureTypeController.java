@@ -1,10 +1,12 @@
 package hr.fer.or.fantasyBestiary.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import hr.fer.or.fantasyBestiary.entities.TreasureType;
+import hr.fer.or.fantasyBestiary.response.ApiResponse;
 import hr.fer.or.fantasyBestiary.service.TreasureTypeService;
 
 import java.util.List;
@@ -23,19 +25,28 @@ public class TreasureTypeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TreasureType> getTreasureTypeById(@PathVariable Long id) {
+    public ResponseEntity<Object> getTreasureTypeById(@PathVariable Long id) {
         Optional<TreasureType> treasureTypeOptional = treasureTypeService.getTreasureTypeById(id);
-        return treasureTypeOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        if (treasureTypeOptional.isPresent()) {
+            TreasureType treasureType = treasureTypeOptional.get();
+            ApiResponse<TreasureType> response = new ApiResponse<>("success", treasureType);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("error", null));
+        }
     }
 
     @GetMapping
-    public List<TreasureType> getAllTreasureTypes() {
-        return treasureTypeService.getAllTreasureTypes();
+    public ResponseEntity<Object> getAllTreasureTypes() {
+        List<TreasureType> treasureTypes = treasureTypeService.getAllTreasureTypes();
+        if (treasureTypes != null && !treasureTypes.isEmpty()) {
+            ApiResponse<List<TreasureType>> response = new ApiResponse<>("success", treasureTypes);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("error", null));
+        }
     }
-
-//    @GetMapping("/{treasureTypeId}/monsters")
-//    public ResponseEntity<Set<Monster>> getMonstersByTreasureTypeId(@PathVariable Long treasureTypeId) {
-//        Set<Monster> monsters = treasureTypeService.getMonstersByTreasureTypeId(treasureTypeId);
-//        return monsters != null ? ResponseEntity.ok(monsters) : ResponseEntity.notFound().build();
-//    }
+    
 }
