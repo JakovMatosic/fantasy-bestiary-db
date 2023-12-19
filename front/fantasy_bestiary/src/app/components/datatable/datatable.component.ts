@@ -135,11 +135,11 @@ export class DatatableComponent {
     return value;
   }
 
-  showTreasure(treasureTypeId: TreasureType) {
+  showTreasure(treasureType: TreasureType) {
     const dialogRef = this.dialog.open(DialogTreasureComponent, {
       height: '20rem',
       width: '35rem',
-      data: { treasureType: treasureTypeId },
+      data: { treasureType: treasureType },
     });
   }
 

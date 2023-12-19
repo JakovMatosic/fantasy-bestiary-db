@@ -37,7 +37,6 @@ public class MonsterService {
 	}
 
 	public List<FullEntry> getAllEntries() {
-		// return monsterRepository.getAllEntries();
 		List<Monster> monsters = this.getAllMonsters();
 		List<TreasureType> treasureTypes = treasureTypeService.getAllTreasureTypes();
 
@@ -86,5 +85,13 @@ public class MonsterService {
 		}
 
 		return entryList;
+	}
+
+	public Monster saveMonster(Monster monster) {
+        return monsterRepository.save(monster);
+    }
+
+	public void deleteMonster(Long id) {
+        monsterRepository.deleteById(id);
 	}
 }
