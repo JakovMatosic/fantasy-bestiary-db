@@ -26,7 +26,7 @@ public class MonsterController {
 	public MonsterController(MonsterService monsterService) {
 		this.monsterService = monsterService;
 	}
-
+	
 	@GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Monster>> getMonsterById(@PathVariable Long id) {
         Optional<Monster> monsterOptional = monsterService.getMonsterById(id);

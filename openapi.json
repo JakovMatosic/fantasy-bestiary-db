@@ -1,0 +1,1521 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "Fantasy Bestiary DB",
+		"description": "This repository contains monster and treasure data for the second edition of the worlds most popular fantasy roleplaying game.",
+		"version": "1.0.0",
+		"contact": {
+			"name": "Jakov Matošić",
+			"email": "jakov.matosic@fer.hr"
+		},
+		"license": {
+			"name": "Open Gaming License",
+			"url": "https://github.com/JakovMatosic/fantasy-bestiary-db/blob/main/additional-files/OPEN-GAME-LICENSE"
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8080",
+			"description": "Generated server url"
+		}
+	],
+	"paths": {
+		"/monsters": {
+			"get": {
+				"tags": [
+					"monster-entity-controller"
+				],
+				"description": "get-monster",
+				"operationId": "getCollectionResource-monster-get_1",
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Zero-based page index (0..N)",
+						"required": false,
+						"schema": {
+							"minimum": 0,
+							"type": "integer",
+							"default": 0
+						}
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"description": "The size of the page to be returned",
+						"required": false,
+						"schema": {
+							"minimum": 1,
+							"type": "integer",
+							"default": 20
+						}
+					},
+					{
+						"name": "sort",
+						"in": "query",
+						"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+						"required": false,
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/PagedModelEntityModelMonster"
+								}
+							},
+							"application/x-spring-data-compact+json": {
+								"schema": {
+									"$ref": "#/components/schemas/PagedModelEntityModelMonster"
+								}
+							},
+							"text/uri-list": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"monster-entity-controller"
+				],
+				"description": "create-monster",
+				"operationId": "postCollectionResource-monster-post",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MonsterRequestBody"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelMonster"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/monsters/search/findTreasuresByMonsterId": {
+			"get": {
+				"tags": [
+					"monster-search-controller"
+				],
+				"operationId": "executeSearch-monster-get",
+				"parameters": [
+					{
+						"name": "monsterId",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/CollectionModelEntityModelMonster"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		},
+		"/monsters/{id}": {
+			"get": {
+				"tags": [
+					"monster-entity-controller"
+				],
+				"description": "get-monster",
+				"operationId": "getItemResource-monster-get",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelMonster"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			},
+			"put": {
+				"tags": [
+					"monster-entity-controller"
+				],
+				"description": "update-monster",
+				"operationId": "putItemResource-monster-put",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MonsterRequestBody"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelMonster"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelMonster"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"monster-entity-controller"
+				],
+				"description": "delete-monster",
+				"operationId": "deleteItemResource-monster-delete",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No Content"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			},
+			"patch": {
+				"tags": [
+					"monster-entity-controller"
+				],
+				"description": "patch-monster",
+				"operationId": "patchItemResource-monster-patch",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MonsterRequestBody"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelMonster"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		},
+		"/profile": {
+			"get": {
+				"tags": [
+					"profile-controller"
+				],
+				"operationId": "listAllFormsOfMetadata_1",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepresentationModelObject"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/profile/monsters": {
+			"get": {
+				"tags": [
+					"profile-controller"
+				],
+				"operationId": "descriptor_1_1_1",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							},
+							"application/alps+json": {
+								"schema": {
+									"type": "string"
+								}
+							},
+							"application/schema+json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonSchema"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/profile/treasureTypes": {
+			"get": {
+				"tags": [
+					"profile-controller"
+				],
+				"operationId": "descriptor_1_1_2",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							},
+							"application/alps+json": {
+								"schema": {
+									"type": "string"
+								}
+							},
+							"application/schema+json": {
+								"schema": {
+									"$ref": "#/components/schemas/JsonSchema"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/treasureTypes": {
+			"get": {
+				"tags": [
+					"treasure-type-entity-controller"
+				],
+				"description": "get-treasuretype",
+				"operationId": "getCollectionResource-treasuretype-get_1",
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Zero-based page index (0..N)",
+						"required": false,
+						"schema": {
+							"minimum": 0,
+							"type": "integer",
+							"default": 0
+						}
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"description": "The size of the page to be returned",
+						"required": false,
+						"schema": {
+							"minimum": 1,
+							"type": "integer",
+							"default": 20
+						}
+					},
+					{
+						"name": "sort",
+						"in": "query",
+						"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+						"required": false,
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/PagedModelEntityModelTreasureType"
+								}
+							},
+							"application/x-spring-data-compact+json": {
+								"schema": {
+									"$ref": "#/components/schemas/PagedModelEntityModelTreasureType"
+								}
+							},
+							"text/uri-list": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"treasure-type-entity-controller"
+				],
+				"description": "create-treasuretype",
+				"operationId": "postCollectionResource-treasuretype-post",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TreasureTypeRequestBody"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelTreasureType"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/treasureTypes/{id}": {
+			"get": {
+				"tags": [
+					"treasure-type-entity-controller"
+				],
+				"description": "get-treasuretype",
+				"operationId": "getItemResource-treasuretype-get",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelTreasureType"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			},
+			"put": {
+				"tags": [
+					"treasure-type-entity-controller"
+				],
+				"description": "update-treasuretype",
+				"operationId": "putItemResource-treasuretype-put",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TreasureTypeRequestBody"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelTreasureType"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelTreasureType"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"treasure-type-entity-controller"
+				],
+				"description": "delete-treasuretype",
+				"operationId": "deleteItemResource-treasuretype-delete",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "No Content"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			},
+			"patch": {
+				"tags": [
+					"treasure-type-entity-controller"
+				],
+				"description": "patch-treasuretype",
+				"operationId": "patchItemResource-treasuretype-patch",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TreasureTypeRequestBody"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/EntityModelTreasureType"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		},
+		"/api/monsters/edit/{id}": {
+			"put": {
+				"tags": [
+					"monster-controller"
+				],
+				"operationId": "updateMonster",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Monster"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponseMonster"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/monsters/create": {
+			"post": {
+				"tags": [
+					"monster-controller"
+				],
+				"operationId": "createMonster",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Monster"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponseMonster"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api": {
+			"get": {
+				"tags": [
+					"util-controller"
+				],
+				"operationId": "getAllEntries",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/treasure-types": {
+			"get": {
+				"tags": [
+					"treasure-type-controller"
+				],
+				"operationId": "getAllTreasureTypes",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/treasure-types/{id}": {
+			"get": {
+				"tags": [
+					"treasure-type-controller"
+				],
+				"operationId": "getTreasureTypeById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/monsters": {
+			"get": {
+				"tags": [
+					"monster-controller"
+				],
+				"operationId": "getAllMonsters",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponseListMonster"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/monsters/{monsterId}/treasures": {
+			"get": {
+				"tags": [
+					"monster-controller"
+				],
+				"operationId": "getTreasuresForMonster",
+				"parameters": [
+					{
+						"name": "monsterId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/monsters/{id}": {
+			"get": {
+				"tags": [
+					"monster-controller"
+				],
+				"operationId": "getMonsterById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponseMonster"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/monsters/delete/{id}": {
+			"delete": {
+				"tags": [
+					"monster-controller"
+				],
+				"operationId": "deleteMonster",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/error": {
+			"get": {
+				"tags": [
+					"custom-error-controller"
+				],
+				"operationId": "handleError",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": [
+					"custom-error-controller"
+				],
+				"operationId": "handleError_3",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"custom-error-controller"
+				],
+				"operationId": "handleError_2",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"custom-error-controller"
+				],
+				"operationId": "handleError_5",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"options": {
+				"tags": [
+					"custom-error-controller"
+				],
+				"operationId": "handleError_6",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"head": {
+				"tags": [
+					"custom-error-controller"
+				],
+				"operationId": "handleError_1",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"tags": [
+					"custom-error-controller"
+				],
+				"operationId": "handleError_4",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/hal+json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"AbstractJsonSchemaPropertyObject": {
+				"type": "object",
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"readOnly": {
+						"type": "boolean"
+					}
+				}
+			},
+			"Item": {
+				"type": "object",
+				"properties": {
+					"type": {
+						"type": "string"
+					},
+					"properties": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/AbstractJsonSchemaPropertyObject"
+						}
+					},
+					"requiredProperties": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"JsonSchema": {
+				"type": "object",
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"properties": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/AbstractJsonSchemaPropertyObject"
+						}
+					},
+					"requiredProperties": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"definitions": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/Item"
+						}
+					},
+					"type": {
+						"type": "string"
+					},
+					"$schema": {
+						"type": "string"
+					}
+				}
+			},
+			"Links": {
+				"type": "object",
+				"additionalProperties": {
+					"$ref": "#/components/schemas/Link"
+				}
+			},
+			"RepresentationModelObject": {
+				"type": "object",
+				"properties": {
+					"_links": {
+						"$ref": "#/components/schemas/Links"
+					}
+				}
+			},
+			"EntityModelTreasureType": {
+				"type": "object",
+				"properties": {
+					"treasureTypeName": {
+						"type": "string"
+					},
+					"copperRange": {
+						"type": "string"
+					},
+					"silverRange": {
+						"type": "string"
+					},
+					"goldRange": {
+						"type": "string"
+					},
+					"electrumRange": {
+						"type": "string"
+					},
+					"gemsRange": {
+						"type": "string"
+					},
+					"artObjectsRange": {
+						"type": "string"
+					},
+					"item": {
+						"type": "string"
+					},
+					"percentageCopper": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageSilver": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageGold": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageElectrum": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageGems": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageArtObjects": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageItem": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"_links": {
+						"$ref": "#/components/schemas/Links"
+					}
+				}
+			},
+			"PageMetadata": {
+				"type": "object",
+				"properties": {
+					"size": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"number": {
+						"type": "integer",
+						"format": "int64"
+					}
+				}
+			},
+			"PagedModelEntityModelTreasureType": {
+				"type": "object",
+				"properties": {
+					"_embedded": {
+						"type": "object",
+						"properties": {
+							"treasureTypes": {
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/EntityModelTreasureType"
+								}
+							}
+						}
+					},
+					"_links": {
+						"$ref": "#/components/schemas/Links"
+					},
+					"page": {
+						"$ref": "#/components/schemas/PageMetadata"
+					}
+				}
+			},
+			"Monster": {
+				"type": "object",
+				"properties": {
+					"monsterId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"name": {
+						"type": "string"
+					},
+					"frequency": {
+						"type": "string"
+					},
+					"activityCycle": {
+						"type": "string"
+					},
+					"numberAppearing": {
+						"type": "string"
+					},
+					"alignment": {
+						"type": "string"
+					},
+					"armorClass": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"movement": {
+						"type": "string"
+					},
+					"hitDice": {
+						"type": "string"
+					},
+					"thaco": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"attack": {
+						"type": "string"
+					},
+					"size": {
+						"type": "string"
+					},
+					"morale": {
+						"type": "string"
+					},
+					"experience": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"EntityModelMonster": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"frequency": {
+						"type": "string"
+					},
+					"activityCycle": {
+						"type": "string"
+					},
+					"numberAppearing": {
+						"type": "string"
+					},
+					"alignment": {
+						"type": "string"
+					},
+					"armorClass": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"movement": {
+						"type": "string"
+					},
+					"hitDice": {
+						"type": "string"
+					},
+					"thaco": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"attack": {
+						"type": "string"
+					},
+					"size": {
+						"type": "string"
+					},
+					"morale": {
+						"type": "string"
+					},
+					"experience": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"_links": {
+						"$ref": "#/components/schemas/Links"
+					}
+				}
+			},
+			"PagedModelEntityModelMonster": {
+				"type": "object",
+				"properties": {
+					"_embedded": {
+						"type": "object",
+						"properties": {
+							"monsters": {
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/EntityModelMonster"
+								}
+							}
+						}
+					},
+					"_links": {
+						"$ref": "#/components/schemas/Links"
+					},
+					"page": {
+						"$ref": "#/components/schemas/PageMetadata"
+					}
+				}
+			},
+			"CollectionModelEntityModelMonster": {
+				"type": "object",
+				"properties": {
+					"_embedded": {
+						"type": "object",
+						"properties": {
+							"monsters": {
+								"type": "array",
+								"items": {
+									"$ref": "#/components/schemas/EntityModelMonster"
+								}
+							}
+						}
+					},
+					"_links": {
+						"$ref": "#/components/schemas/Links"
+					}
+				}
+			},
+			"MonsterRequestBody": {
+				"type": "object",
+				"properties": {
+					"monsterId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"name": {
+						"type": "string"
+					},
+					"frequency": {
+						"type": "string"
+					},
+					"activityCycle": {
+						"type": "string"
+					},
+					"numberAppearing": {
+						"type": "string"
+					},
+					"alignment": {
+						"type": "string"
+					},
+					"armorClass": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"movement": {
+						"type": "string"
+					},
+					"hitDice": {
+						"type": "string"
+					},
+					"thaco": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"attack": {
+						"type": "string"
+					},
+					"size": {
+						"type": "string"
+					},
+					"morale": {
+						"type": "string"
+					},
+					"experience": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"TreasureTypeRequestBody": {
+				"type": "object",
+				"properties": {
+					"treasureTypeId": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"treasureTypeName": {
+						"type": "string"
+					},
+					"copperRange": {
+						"type": "string"
+					},
+					"silverRange": {
+						"type": "string"
+					},
+					"goldRange": {
+						"type": "string"
+					},
+					"electrumRange": {
+						"type": "string"
+					},
+					"gemsRange": {
+						"type": "string"
+					},
+					"artObjectsRange": {
+						"type": "string"
+					},
+					"item": {
+						"type": "string"
+					},
+					"percentageCopper": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageSilver": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageGold": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageElectrum": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageGems": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageArtObjects": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"percentageItem": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"ApiResponseMonster": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"timestamp": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"data": {
+						"$ref": "#/components/schemas/Monster"
+					}
+				}
+			},
+			"ApiResponseListMonster": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string"
+					},
+					"timestamp": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Monster"
+						}
+					}
+				}
+			},
+			"Link": {
+				"type": "object",
+				"properties": {
+					"href": {
+						"type": "string"
+					},
+					"hreflang": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"deprecation": {
+						"type": "string"
+					},
+					"profile": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"templated": {
+						"type": "boolean"
+					}
+				}
+			}
+		}
+	}
+}
