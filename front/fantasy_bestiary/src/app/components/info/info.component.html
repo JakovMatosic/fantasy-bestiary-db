@@ -28,23 +28,32 @@
 </div>
 
 <div class="container">
-  <p class="title">Download Data:</p>
-  <ul class="list">
-    <li class="list-item">
-      <a
-        href="../../../assets/fantasy_bestiary.csv"
-        download="fantasy_bestiary.csv"
-        class="link"
-        >Download CSV</a
-      >
-    </li>
-    <li class="list-item">
-      <a
-        href="../../../assets/fantasy_bestiary.json"
-        download="fantasy_bestiary.json"
-        class="link"
-        >Download JSON</a
-      >
-    </li>
-  </ul>
+  <div class="download-section">
+    <p class="title">Download Data:</p>
+    <ul class="list">
+      <li class="list-item">
+        <a
+          href="../../../assets/fantasy_bestiary.csv"
+          download="fantasy_bestiary.csv"
+          class="link"
+          >Download CSV</a
+        >
+      </li>
+      <li class="list-item">
+        <a
+          href="../../../assets/fantasy_bestiary.json"
+          download="fantasy_bestiary.json"
+          class="link"
+          >Download JSON</a
+        >
+      </li>
+    </ul>
+  </div>
+  <div class="buttons-section">
+    <button class="button">Login</button>
+    <button class="button">User</button>
+    <button class="button" onclick="refreshDownloads()">
+      Refresh Downloads
+    </button>
+  </div>
 </div>
