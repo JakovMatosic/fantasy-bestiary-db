@@ -24,7 +24,7 @@ export class DataService {
   getTreasuresForMonster(monsterId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/monsters/${monsterId}/treasures`).pipe(
       catchError((error) => {
-        if (error.status === 204) {
+        if (error.status === 404) {
           // Handle 404 error (monster doesn't have treasures)
           // Return an empty array or any default value as needed
           return of([]);
