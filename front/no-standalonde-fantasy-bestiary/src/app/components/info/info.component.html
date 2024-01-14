@@ -36,6 +36,7 @@
           href="../../../assets/fantasy_bestiary.csv"
           download="fantasy_bestiary.csv"
           class="link"
+          *ngIf="!otherButton"
           >Download CSV</a
         >
       </li>
@@ -44,15 +45,42 @@
           href="../../../assets/fantasy_bestiary.json"
           download="fantasy_bestiary.json"
           class="link"
+          *ngIf="!otherButton"
+          >Download JSON</a
+        >
+      </li>
+      <li class="list-item">
+        <a (click)="downloadCsvFile()" class="link" *ngIf="otherButton"
+          >Download CSV</a
+        >
+      </li>
+      <li class="list-item">
+        <a (click)="downloadJsonFile()" class="link" *ngIf="otherButton"
           >Download JSON</a
         >
       </li>
     </ul>
   </div>
   <div class="buttons-section">
-    <button class="button">Login</button>
-    <button class="button">Profile</button>
-    <button class="button" onclick="refreshDownloads()">
+    <ng-container *ngIf="auth.isAuthenticated$ | async">
+      <button class="button-red" (click)="auth.logout()">Log out</button>
+    </ng-container>
+
+    <button
+      class="button"
+      *ngIf="!(auth.isAuthenticated$ | async)"
+      (click)="auth.loginWithPopup()"
+    >
+      Login
+    </button>
+    <button class="button" *ngIf="auth.isAuthenticated$ | async" (click) = "router.navigate(['/profile'])">
+      Profile
+    </button>
+    <button
+      class="button"
+      (click)="refreshDownloads()"
+      *ngIf="auth.isAuthenticated$ | async"
+    >
       Refresh Downloads
     </button>
   </div>

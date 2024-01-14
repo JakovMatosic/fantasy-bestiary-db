@@ -1,0 +1,9 @@
+<div *ngIf="user" class="user-card">
+  <img class="user-image" [src]="user.picture" alt="User Image" width="80" />
+  <div class="user-name">{{ user.name }}</div>
+  <div class="user-email">{{ user.email }}</div>
+</div>
+
+<div class="user-card">
+    <button class="button" (click)="router.navigate(['/']);">Return to Home</button>
+</div>
