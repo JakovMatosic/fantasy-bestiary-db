@@ -30,11 +30,11 @@ public class UtilController {
 	public ResponseEntity<Object> getAllEntries() {
 	    List<FullEntry> entries = monsterService.getAllEntries();
 	    if (entries != null && !entries.isEmpty()) {
-	        ApiResponse<List<FullEntry>> response = new ApiResponse<>("success", entries);
+	        ApiResponse<List<FullEntry>> response = new ApiResponse<>("success", entries, "monster");
 	        return ResponseEntity.ok(response);
 	    } else {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-	                .body(new ApiResponse<>("error", null));
+	                .body(new ApiResponse<>("error", null, "null"));
 	    }
 	}
 }

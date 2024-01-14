@@ -29,11 +29,11 @@ public class TreasureTypeController {
         Optional<TreasureType> treasureTypeOptional = treasureTypeService.getTreasureTypeById(id);
         if (treasureTypeOptional.isPresent()) {
             TreasureType treasureType = treasureTypeOptional.get();
-            ApiResponse<TreasureType> response = new ApiResponse<>("success", treasureType);
+            ApiResponse<TreasureType> response = new ApiResponse<>("success", treasureType, "treasure");
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>("error", null));
+                    .body(new ApiResponse<>("error", null, "null"));
         }
     }
 
@@ -41,11 +41,11 @@ public class TreasureTypeController {
     public ResponseEntity<Object> getAllTreasureTypes() {
         List<TreasureType> treasureTypes = treasureTypeService.getAllTreasureTypes();
         if (treasureTypes != null && !treasureTypes.isEmpty()) {
-            ApiResponse<List<TreasureType>> response = new ApiResponse<>("success", treasureTypes);
+            ApiResponse<List<TreasureType>> response = new ApiResponse<>("success", treasureTypes, "treasure");
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>("error", null));
+                    .body(new ApiResponse<>("error", null, "null"));
         }
     }
     

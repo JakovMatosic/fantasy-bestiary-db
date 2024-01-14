@@ -32,18 +32,18 @@ public class MonsterController {
         Optional<Monster> monsterOptional = monsterService.getMonsterById(id);
         if (monsterOptional.isPresent()) {
             Monster monster = monsterOptional.get();
-            ApiResponse<Monster> response = new ApiResponse<>("success", monster);
+            ApiResponse<Monster> response = new ApiResponse<>("success", monster, "monster");
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>("error", null));
+                    .body(new ApiResponse<>("error", null, "null"));
         }
     }
 
 	@GetMapping
     public ResponseEntity<ApiResponse<List<Monster>>> getAllMonsters() {
         List<Monster> monsters = monsterService.getAllMonsters();
-        ApiResponse<List<Monster>> response = new ApiResponse<>("success", monsters);
+        ApiResponse<List<Monster>> response = new ApiResponse<>("success", monsters, "monster");
         return ResponseEntity.ok(response);
     }
 
@@ -51,18 +51,18 @@ public class MonsterController {
 	public ResponseEntity<Object> getTreasuresForMonster(@PathVariable Long monsterId) {
 	    List<TreasureType> treasures = monsterService.findTreasuresByMonsterId(monsterId);
 	    if (treasures != null && !treasures.isEmpty()) {
-	        ApiResponse<List<TreasureType>> response = new ApiResponse<>("success", treasures);
+	        ApiResponse<List<TreasureType>> response = new ApiResponse<>("success", treasures, "treasure");
 	        return ResponseEntity.ok(response);
 	    } else {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-	                .body(new ApiResponse<>("error", null));
+	                .body(new ApiResponse<>("error", null, "null"));
 	    }
 	}
 	
 	@PostMapping("/create")
     public ResponseEntity<ApiResponse<Monster>> createMonster(@RequestBody Monster monster) {
         Monster savedMonster = monsterService.saveMonster(monster);
-        ApiResponse<Monster> response = new ApiResponse<>("success", savedMonster);
+        ApiResponse<Monster> response = new ApiResponse<>("success", savedMonster, "monster");
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedMonster.getMonsterId())
@@ -76,11 +76,11 @@ public class MonsterController {
         if (existingMonsterOptional.isPresent()) {
             updatedMonster.setMonsterId(id);
             Monster savedMonster = monsterService.saveMonster(updatedMonster);
-            ApiResponse<Monster> response = new ApiResponse<>("success", savedMonster);
+            ApiResponse<Monster> response = new ApiResponse<>("success", savedMonster, "monster");
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>("error", null));
+                    .body(new ApiResponse<>("error", null, "null"));
         }
     }
 	
@@ -88,10 +88,10 @@ public class MonsterController {
 	public ResponseEntity<Object> deleteMonster(@PathVariable Long id) {
 	    if (monsterService.getMonsterById(id).isPresent()) {
 	        monsterService.deleteMonster(id);
-	        ApiResponse<Void> response = new ApiResponse<>("success", null);
+	        ApiResponse<Void> response = new ApiResponse<>("success", null, "null");
 	        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
 	    } else {
-	        ApiResponse<Void> response = new ApiResponse<>("error", null);
+	        ApiResponse<Void> response = new ApiResponse<>("error", null, "null");
 	        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 	    }
 	}
